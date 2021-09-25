@@ -20,6 +20,12 @@
 
         .option {
             padding: 10px 15px;
+            opacity: 0.9;
+            font-weight: 500;
+            :hover {
+                opacity: 1;
+                font-weight: bolder;
+            }
         }
     }
 }

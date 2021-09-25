@@ -6,6 +6,7 @@ import './App.css';
 import Header from './components/header/header.component';
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
+import SignInAndSignUp from './pages/auth/sign-in-and-sign-up.component';
 
 const HatsPage = () => {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route exact path='/' component={HomePage} />
         <Route exact path='/shop' component={ShopPage} />
         <Route path='/shop/hats' component={HatsPage} />
+        <Route path='/signin' component={SignInAndSignUp} />
       </Switch>
     </div>
   );
