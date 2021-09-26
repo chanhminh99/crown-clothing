@@ -8,7 +8,7 @@
     .logo-container {
         height: 100%;
         width: 70px;
-        padding: 25px;
+        padding: 10px 25px 15px;
     }
 
     .options {
@@ -22,6 +22,8 @@
             padding: 10px 15px;
             opacity: 0.9;
             font-weight: 500;
+            cursor: pointer;
+
             :hover {
                 opacity: 1;
                 font-weight: bolder;
