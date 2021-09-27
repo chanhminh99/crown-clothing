@@ -25,6 +25,8 @@ class App extends React.Component {
     }
 
     this.unsubscribeFromAuth = null
+
+    this.unsubscribeSnapshot = null
   }
 
   componentDidMount() {
@@ -34,7 +36,7 @@ class App extends React.Component {
 
 
         // Listening to userRef data changed
-        userRef.onSnapshot((snapShot) => {
+        this.unsubscribeSnapshot = userRef.onSnapshot((snapShot) => {
           this.setState({currentUser: {
             id: snapShot.id,
             ...snapShot.data()
@@ -49,6 +51,7 @@ class App extends React.Component {
 
   componentWillUnmount() {
     this.unsubscribeFromAuth()
+    this.unsubscribeSnapshot()
   }
 
   render() {
