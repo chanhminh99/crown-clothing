@@ -65,7 +65,7 @@ class App extends React.Component {
           <Route path='/signin' component={SignInAndSignUp} />
         </Switch>
       </div>
-    );
+  );
   }
 }
 
