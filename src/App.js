@@ -14,14 +14,6 @@ import SignInAndSignUp from './pages/auth/sign-in-and-sign-up.component';
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
 
-const HatsPage = () => {
-  return (
-    <div>
-      <h1>HATS PAGE</h1>
-    </div>
-  )
-}
-
 class App extends React.Component {
   constructor() {
     super()
@@ -65,7 +57,6 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/shop' component={ShopPage} />
-          <Route path='/shop/hats' component={HatsPage} />
           <Route exact path='/checkout' component={CheckoutPage} />
           <Route exact path='/signin' render={() => this.props.currentUser ? <Redirect to='/' /> : <SignInAndSignUp />} />
         </Switch>
