@@ -12,6 +12,40 @@ const firebaseConfig = {
     measurementId: "G-GD9GKZ3G3N"
 };
 
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+    const collectionRef = firestore.collection(collectionKey)
+    
+    const batch = firestore.batch()
+
+    objectsToAdd.forEach((obj) => {
+        const newDocRef = collectionRef.doc()
+        batch.set(newDocRef, obj)
+    })
+
+    return batch.commit()
+}
+
+export const convertCollectionsSnapshotToMap = collections => {
+    const transformedCollection = collections.docs.map((doc) => {
+        const {title, items} = doc.data()
+        
+
+        return {
+            id: doc.id,
+            routeName: encodeURI(title.toLowerCase()),
+            items,
+            title
+        }
+    })
+
+    console.log(transformedCollection)
+
+    return transformedCollection.reduce((accumulator, collection) => {
+        accumulator[collection.title.toLowerCase()] = collection
+        return accumulator
+    }, {})
+}
+
 export const createUserProfileDocument = async (userAuth, additionalData = {}) => {
     if (!userAuth) return;
 
