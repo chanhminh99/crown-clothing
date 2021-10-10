@@ -84,7 +84,7 @@ export function* signUpAndSignIn({payload: {displayName, email, password}}) {
         yield getSnapshotFromUserAuth(user, {displayName}, signUpSuccess, signUpFailure)
     }
     catch (error) {
-        yield put(signUpFailure())
+        yield put(signUpFailure(error.message))
     }
     
 }
