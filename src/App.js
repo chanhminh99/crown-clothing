@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import { Switch, Route, Redirect } from 'react-router';
-import {connect} from 'react-redux'
-import {createStructuredSelector} from 'reselect'
+import { useSelector, useDispatch } from 'react-redux'
 import './App.css';
 
 import Header from './components/header/header.component';
@@ -10,13 +9,20 @@ import ShopPage from './pages/shop/shop.component';
 import CheckoutPage from './pages/checkout/checkout.component';
 import SignInAndSignUp from './pages/auth/sign-in-and-sign-up.component';
 
-import {checkUserSession} from './redux/user/user.actions'
+import { checkUserSession } from './redux/user/user.actions'
 import { selectCurrentUser } from './redux/user/user.selectors';
 // import { selectCollectionForPreview} from './redux/shop/shop.selectors'
-const App = ({checkUserSession}) => {
+const App = () => {
+
+  const currentUser = useSelector(selectCurrentUser)
+  const dispatch = useDispatch()
+
+  const checkUserSessionHandler = useCallback(() => {
+    dispatch(checkUserSession())
+  }, [dispatch])
 
   useEffect(() => {
-    checkUserSession()
+    checkUserSessionHandler()
   
     /* Deprecated */
     // const {setCurrentUser} = this.props
@@ -47,7 +53,7 @@ const App = ({checkUserSession}) => {
     //     unsubscribeFromAuth()
     //   }
     // }
-  }, [checkUserSession])
+  }, [checkUserSessionHandler])
 
     return (
       <div className="App">
@@ -56,19 +62,10 @@ const App = ({checkUserSession}) => {
           <Route exact path='/' component={HomePage} />
           <Route path='/shop' component={ShopPage} />
           <Route exact path='/checkout' component={CheckoutPage} />
-          <Route exact path='/signin' render={() => this.props.currentUser ? <Redirect to='/' /> : <SignInAndSignUp />} />
+          <Route exact path='/signin' render={() => currentUser ? <Redirect to='/' /> : <SignInAndSignUp />} />
         </Switch>
       </div>
   );
 }
 
-const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser,
-  // collectionPreviewArray: selectCollectionForPreview
-})
-
-const mapDispatchToProps = dispatch => ({
-  checkUserSession: () => dispatch(checkUserSession())
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
