@@ -52,7 +52,7 @@ export function* isUserAuthenticated() {
             return
         }
 
-        yield getSnapshotFromUserAuth(userAuth)
+        yield getSnapshotFromUserAuth(userAuth, {}, signInSuccess, signInFailure)
     }
     catch (error) {
         yield put(signInFailure(error.message))

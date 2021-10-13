@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Switch, Route, Redirect } from 'react-router';
 import {connect} from 'react-redux'
 import {createStructuredSelector} from 'reselect'
@@ -13,29 +13,20 @@ import SignInAndSignUp from './pages/auth/sign-in-and-sign-up.component';
 import {checkUserSession} from './redux/user/user.actions'
 import { selectCurrentUser } from './redux/user/user.selectors';
 // import { selectCollectionForPreview} from './redux/shop/shop.selectors'
-class App extends React.Component {
-  constructor() {
-    super()
+const App = ({checkUserSession}) => {
 
-
-    this.unsubscribeFromAuth = null
-
-    this.unsubscribeSnapshot = null
-  }
-
-  componentDidMount() {
-    const {checkUserSession} = this.props
-
+  useEffect(() => {
     checkUserSession()
+  
     /* Deprecated */
     // const {setCurrentUser} = this.props
-    // this.unsubscribeFromAuth= auth.onAuthStateChanged(async (userAuth) => {
+    // const unsubscribeFromAuth= auth.onAuthStateChanged(async (userAuth) => {
     //   if (userAuth) {
     //     const userRef = await createUserProfileDocument(userAuth)
 
 
     //     // Listening to userRef data changed
-    //     this.unsubscribeSnapshot = userRef.onSnapshot((snapShot) => {
+    //     const unsubscribeSnapshot = userRef.onSnapshot((snapShot) => {
     //       setCurrentUser({
     //         id: snapShot.id,
     //         ...snapShot.data()
@@ -48,14 +39,16 @@ class App extends React.Component {
       // await addCollectionAndDocuments('collections', this.props.collectionPreviewArray.map(({title, items}) => ({title, items})))
     // })
     /* Deprecated */
-  }
+    // return () => {
+    //   if (unsubscribeFromAuth) {
+    //     unsubscribeFromAuth()
+    //   }
+    //   if (unsubscribeSnapshot) {
+    //     unsubscribeFromAuth()
+    //   }
+    // }
+  }, [checkUserSession])
 
-  componentWillUnmount() {
-    this.unsubscribeFromAuth()
-    this.unsubscribeSnapshot()
-  }
-
-  render() {
     return (
       <div className="App">
         <Header />
@@ -67,7 +60,6 @@ class App extends React.Component {
         </Switch>
       </div>
   );
-  }
 }
 
 const mapStateToProps = createStructuredSelector({
