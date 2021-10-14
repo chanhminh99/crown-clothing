@@ -1,14 +1,27 @@
 import React from 'react'
 import StripeCheckout from 'react-stripe-checkout'
+import axios from 'axios'
 
 const StripCheckoutButton = ({price}) => {
     const priceForStripe = price * 100 // The unit in stripe system is cent, so we much convert from dollar to cent
     const publishableKey = 'pk_test_51JgWSyCjWv8vEFwMeKTp7khha3Pn3Sw8egZ0wGVDdxKVt68XpNqwzTKDnY4rFV0lY8gO58bHY6M0vZt20IRwryeX00MAOtPw6S'
 
     const onToken = (token) => {
-        console.log({token})
+        axios({
+            url: 'payment',
+            method: 'POST',
+            data: {
+                amount: priceForStripe,
+                token
+            }
+        }).then((response) => {
+            alert('Payment successfully!')
+        }).catch((error) => {
+            console.log('Payment error: ', JSON.parse(error))
+            alert('There is an issue with your payment. Please sure you use the provided credit card correctly')
+        })
 
-        alert('Payment successfully!')
+        
     }
 
     return (
