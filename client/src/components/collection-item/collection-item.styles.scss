@@ -5,6 +5,7 @@
     height: 350px;
     align-items: center;
     position: relative;
+    margin: 0 10px;
 
     .image {
         width: 100%;
@@ -20,6 +21,13 @@
         position: absolute;
         top: 255px;
         display: none;
+
+        @media screen and (max-width: 800px) {
+            display: block;
+            opacity: 0.9;
+            min-width: unset;
+            padding: 0px 10px;
+        }
     }
 
     &:hover {
@@ -47,6 +55,21 @@
 
         .price {
             width: 10%;
+        }
+    }
+
+    @media screen and (max-width: 800px) {
+        width: 40vw;
+
+        &:hover {
+            .image {
+                opacity: unset;
+            }
+
+            .custom-button {
+                opacity: unset;
+                display: flex;
+            }
         }
     }
 }
