@@ -1,13 +1,20 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { selectCartItemsTotal, selectCartItems } from '../../redux/cart/cart.selectors'
+
+import { clearCart } from '../../redux/cart/cart.action'
 
 import CheckoutItem from '../../components/checkout-item/checkout-item.component'
 import StripCheckoutButton from '../../components/stripe-button/stripe-button.component'
 import './checkout.styles.scss'
 
-const CheckoutPage = ({cartItems, totalPrice}) => {
+const CheckoutPage = ({cartItems, totalPrice, clearCart, history}) => {
+    const onPaymentSuccess = useCallback(() => {
+        clearCart()
+        history.push('/')
+    }, [history, clearCart])
+
     return (
         <div className='checkout-page'>
             <div className="checkout-header">
@@ -36,7 +43,7 @@ const CheckoutPage = ({cartItems, totalPrice}) => {
                 <br />
                 4242 - 4242 - 424242 - 4242,  Exp: 01/24, CVV: 123
             </div>
-            <StripCheckoutButton price={totalPrice} />
+            <StripCheckoutButton price={totalPrice} onPaymentSuccess={onPaymentSuccess} />
         </div>
     )
 }
@@ -46,4 +53,8 @@ const mapStateToProps = createStructuredSelector({
     cartItems: selectCartItems
 })
 
-export default connect(mapStateToProps)(CheckoutPage)
+const mapDispatchToProps = (dispatch) => ({
+    clearCart: () => dispatch(clearCart())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutPage)
